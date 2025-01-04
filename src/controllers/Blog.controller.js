@@ -1,4 +1,5 @@
 import { Blog } from "../models/Blog.model.js";
+import { Comment } from "../models/Comment.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -66,12 +67,13 @@ const getSinglePost=asyncHandler(
                 "NO BLOGS FOUND"
             )
         }
-        // Todo get comments with related ID
+        
+        const comment=await Comment.find({postId});
 
         res.status(200)
         .json(
             200,
-            singleBlog
+            {singleBlog, comment}
         )
     }
 )
@@ -115,12 +117,12 @@ const deleteBlog=asyncHandler(
                 "No post found to delete "
             )
         }
-
+        const deleteComment=await Comment.deleteOne({postId:id});
         res.status(200)
         .json(
             new ApiResponse(
                 200,
-                deletedBlog
+                {deletedBlog, deleteComment}
             )
         )
 
