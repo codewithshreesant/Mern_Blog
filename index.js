@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import { connectDB } from './src/DbConfig/index.js';
+import blogRouter from './src/routes/Blog.route.js'
 dotenv.config();
 const app=express();
 
@@ -22,3 +23,4 @@ connectDB()
     console.log(`The error occured  while connecting  to database ${error.message}`)
 })
 
+app.use('/api/blogs', blogRouter) ;
